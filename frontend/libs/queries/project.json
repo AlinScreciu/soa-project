@@ -1,0 +1,9 @@
+{
+  "name": "queries",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/queries/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project queries --web",
+  "targets": {}
+}

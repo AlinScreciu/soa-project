@@ -1,0 +1,37 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@frontend/lib/utils": ["utils/src/index.ts"],
+      "@frontend/notification-lib": ["libs/notification-lib/src/index.ts"],
+      "@frontend/queries": ["libs/queries/src/index.ts"],
+      "@frontend/token-lib": ["packages/token-lib/src/index.ts"],
+      "@frontend/ui": ["libs/ui/src/ui/"],
+      "@frontend/ui/*": ["libs/ui/src/ui/*"],
+      "@frontend/ui/hooks": ["libs/ui/src/hooks/index.ts"],
+      "@frontend/ui/styles/*": ["libs/ui/src/styles/*"],
+      "@posts/components": ["apps/posts/src/app/components/index.ts"],
+      "@posts/components/*": ["apps/posts/src/app/components/*"],
+      "@register/service/*": ["apps/register/src/app/service/*"],
+      "notifications/Module": ["apps/notifications/src/remote-entry.ts"],
+      "posts/Module": ["apps/posts/src/remote-entry.ts"],
+      "profile/Module": ["apps/profile/src/remote-entry.ts"],
+      "register/Module": ["apps/register/src/remote-entry.ts"],
+      "side/Module": ["apps/side/src/remote-entry.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

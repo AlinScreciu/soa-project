@@ -1,0 +1,62 @@
+{
+  "name": "side",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/side/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/apps/side",
+        "index": "apps/side/src/index.html",
+        "main": "apps/side/src/main.ts",
+        "tsConfig": "apps/side/tsconfig.app.json",
+        "rspackConfig": "apps/side/rspack.config.ts",
+        "assets": ["apps/side/src/favicon.ico", "apps/side/src/assets"]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false,
+          "rspackConfig": "apps/side/rspack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:module-federation-dev-server",
+      "options": {
+        "buildTarget": "side:build:development",
+        "port": 4203
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "buildTarget": "side:build:production"
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/rspack:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "side:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "side:serve:development"
+        },
+        "production": {
+          "serveTarget": "side:serve:production"
+        }
+      }
+    }
+  }
+}

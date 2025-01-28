@@ -1,0 +1,12 @@
+{
+  "name": "@frontend/utils",
+  "version": "0.0.1",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "typings": "./index.d.ts",
+  "private": true
+}

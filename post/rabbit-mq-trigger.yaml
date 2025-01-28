@@ -1,0 +1,14 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: post-like-notification-trigger
+  namespace: default
+  annotations:
+    rabbitmq.eventing.knative.dev/parallelism: "10"
+spec:
+  broker: soa-rabbitmq-cluster
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: post-like-handler

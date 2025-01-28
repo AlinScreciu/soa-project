@@ -1,0 +1,11 @@
+apiVersion: eventing.knative.dev/v1
+kind: Broker
+metadata:
+  annotations:
+    eventing.knative.dev/broker.class: RabbitMQBroker
+  name: soa-rabbitmq-cluster
+spec:
+  config:
+    apiVersion: eventing.knative.dev/v1alpha1
+    kind: RabbitmqBrokerConfig
+    name: soa-rabbit-mq-broker-config

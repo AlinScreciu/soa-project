@@ -1,0 +1,66 @@
+{
+  "name": "register",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/register/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/apps/register",
+        "index": "apps/register/src/index.html",
+        "main": "apps/register/src/main.ts",
+        "tsConfig": "apps/register/tsconfig.app.json",
+        "rspackConfig": "apps/register/rspack.config.ts",
+        "assets": [
+          "apps/register/src/favicon.ico",
+          "apps/register/src/assets",
+          "apps/register/src/assets/wall.jpg"
+        ]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false,
+          "rspackConfig": "apps/register/rspack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:module-federation-dev-server",
+      "options": {
+        "buildTarget": "register:build:development",
+        "port": 4201
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "buildTarget": "register:build:production"
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/rspack:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "register:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "register:serve:development"
+        },
+        "production": {
+          "serveTarget": "register:serve:production"
+        }
+      }
+    }
+  }
+}
