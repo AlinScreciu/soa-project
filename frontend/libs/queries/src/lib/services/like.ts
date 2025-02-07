@@ -33,7 +33,6 @@ class LikeService {
     const res = await this.axiosInstance.get(`/api/likes/user/${username}`, {
       headers: headers,
     });
-
     return likeSchema.array().parse(res.data);
   };
 }

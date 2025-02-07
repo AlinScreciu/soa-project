@@ -45,6 +45,10 @@ public class PostLikeService {
     this.objectMapper = objectMapper;
   }
 
+  public PostLike getById(Long postLikeId) {
+    return postLikeRepository.findById(postLikeId).orElseThrow(() -> new RuntimeException("not found"));
+  }
+
   public void likePost(Long postId) {
 
     String userId = SecurityUtils.getAuthenticatedUserId();

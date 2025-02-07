@@ -13,8 +13,10 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -48,18 +50,6 @@ public class UserSessionService implements ApplicationListener<SessionDisconnect
     sessionIdToUserId.put(sessionId, userId);
     userIdToSessionId.put(userId, sessionId);
 
-    ArrayList<NotificationEntity> unreadList = notificationRepository.findAllByUserIdAndDeliveredFalse(userId);
-
-    for (NotificationEntity notificationEntity : unreadList) {
-      simpMessagingTemplate.convertAndSendToUser(
-              userId,
-              "/queue/notifications",
-              notificationEntity.getContent()
-      );
-      notificationEntity.setDelivered(true);
-    }
-
-    notificationRepository.saveAll(unreadList);
   }
 
   @Override
@@ -71,6 +61,24 @@ public class UserSessionService implements ApplicationListener<SessionDisconnect
       userIdToSessionId.remove(userId);
       tokenHolder.removeToken(userId);
     }
+  }
+
+  @EventListener
+  public void handleSubscribeEvent(SessionSubscribeEvent event) {
+    String username = Objects.requireNonNull(event.getUser()).getName();
+
+    ArrayList<NotificationEntity> unreadList = notificationRepository.findAllByUserIdAndDeliveredFalse(username);
+
+    for (NotificationEntity notificationEntity : unreadList) {
+      simpMessagingTemplate.convertAndSendToUser(
+              username,
+              "/queue/notifications",
+              notificationEntity.getContent()
+      );
+      notificationEntity.setDelivered(true);
+    }
+
+    notificationRepository.saveAll(unreadList);
   }
 
   public boolean isUserOnline(String userId) {

@@ -2,10 +2,12 @@ package com.uni.soa.controller;
 
 import com.uni.soa.entity.FeedType;
 import com.uni.soa.entity.Post;
+import com.uni.soa.entity.PostLike;
 import com.uni.soa.entity.dto.PostDTO;
 import com.uni.soa.entity.dto.UserDTO;
 import com.uni.soa.security.SecurityUtils;
 import com.uni.soa.service.FollowService;
+import com.uni.soa.service.PostLikeService;
 import com.uni.soa.service.PostService;
 import com.uni.soa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,15 @@ public class PostController {
   private final PostService postService;
   private final UserService userService;
   private final FollowService followService;
+  private final PostLikeService postLikeService;
 
   @Autowired
-  public PostController(PostService postService, UserService userService, FollowService followService) {
+  public PostController(PostService postService, UserService userService, FollowService followService,
+                        PostLikeService postLikeService) {
     this.postService = postService;
     this.userService = userService;
     this.followService = followService;
+    this.postLikeService = postLikeService;
   }
 
   @GetMapping(params = "feedType")
@@ -91,7 +96,8 @@ public class PostController {
   public List<PostDTO> getBulkPostsById(@RequestBody List<Long> idList) {
     String authenticatedUserId = SecurityUtils.getAuthenticatedUserId();
 
-    return postService.getBulkPosts(idList).stream().map(post -> populatePostDTO(post, authenticatedUserId)).toList();
+    return idList.stream().map(postLikeService::getById).map(PostLike::getPost).map(post -> populatePostDTO(post,
+            authenticatedUserId)).toList();
   }
 
   @PostMapping

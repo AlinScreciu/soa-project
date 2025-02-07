@@ -1,4 +1,6 @@
+import '@frontend/ui/styles/global.css';
 import '../styles.css';
+
 import { useParams } from 'react-router-dom';
 import { getCurrentUser } from '@frontend/token-lib';
 

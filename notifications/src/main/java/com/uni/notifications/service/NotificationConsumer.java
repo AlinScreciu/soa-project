@@ -21,19 +21,14 @@ public class NotificationConsumer {
 
   private static final Logger logger = LoggerFactory.getLogger(NotificationConsumer.class);
 
-  private final UserSessionService userSessionService;
-  private final SimpMessagingTemplate messagingTemplate;
-  private final NotificationRepository notificationRepository;
+
+
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final FollowService followService;
   private final NotificationService notificationService;
 
-  public NotificationConsumer(UserSessionService userSessionService, SimpMessagingTemplate messagingTemplate,
-                              NotificationRepository notificationRepository, FollowService followService,
+  public NotificationConsumer(FollowService followService,
                               NotificationService notificationService) {
-    this.userSessionService = userSessionService;
-    this.messagingTemplate = messagingTemplate;
-    this.notificationRepository = notificationRepository;
     this.followService = followService;
     this.notificationService = notificationService;
   }
@@ -60,8 +55,6 @@ public class NotificationConsumer {
     notification.setContent(followEvent.getNotificationContent());
 
     notificationService.tryToSendNotification(notification);
-
-
   }
 
   @RabbitListener(queues = "post-notifications-queue")

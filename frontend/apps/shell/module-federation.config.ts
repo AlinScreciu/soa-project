@@ -38,6 +38,12 @@ const config: ModuleFederationConfig = {
       };
     }
 
+    if (libraryName.startsWith('@frontend/ui')) {
+      return {
+        singleton: true,
+      };
+    }
+
     // If you want to override more packages, add them here.
     // Otherwise, return the default config Nx provides:
     return sharedConfig;

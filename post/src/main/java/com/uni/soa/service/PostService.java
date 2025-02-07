@@ -3,6 +3,7 @@ package com.uni.soa.service;
 import com.uni.soa.entity.Post;
 import com.uni.soa.entity.PostNotificationEvent;
 import com.uni.soa.repository.PostRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitTemplateConfigurer;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class PostService {
 
@@ -39,7 +41,8 @@ public class PostService {
   }
 
   public List<Post> getBulkPosts(List<Long> idList) {
-    return postRepository.findAllById(idList);
+
+    return idList.stream().map(postRepository::findById).map(Optional::orElseThrow).toList();
   }
 
   public Post createPost(Post post) {

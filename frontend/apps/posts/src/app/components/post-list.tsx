@@ -68,7 +68,9 @@ const PostList: React.FC<{
         return (
           <PostCard
             key={post.id}
-            ref={(el) => (postRefs.current[post.id] = el)}
+            ref={(el) => {
+              postRefs.current[post.id] = el;
+            }}
             onLike={(id) => like(id)}
             onDislike={(id) => dislike(id)}
             onViewProfile={() => console.log('view profile')}
